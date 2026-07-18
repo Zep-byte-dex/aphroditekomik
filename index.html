@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APHRODITE COMIC</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg: #0b0b0e;
+            --bg-card: #14141a;
+            --bg-input: #1a1a22;
+            --border: #252530;
+            --text: #f0f0f5;
+            --text-muted: #8888a0;
+            --accent: #e8b4d8;
+            --accent-dim: rgba(232, 180, 216, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding-bottom: 80px;
+            min-height: 100vh;
+        }
+
+        /* SCROLL */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        /* HEADER BESAR */
+        .hero {
+            background: linear-gradient(145deg, #12121a, #0e0e14);
+            padding: 32px 20px 28px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(232,180,216,0.06), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .hero-brand {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f0e6ed, #e8b4d8, #d4a0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-brand i {
+            -webkit-text-fill-color: initial;
+            color: var(--accent);
+            margin-right: 4px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-actions button {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .hero-actions button:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .hero-banner {
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-top: 4px;
+            border: 1px solid var(--border);
+            background: #000;
+            aspect-ratio: 16/7;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .hero-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 18px 16px 0;
+        }
+
+        /* NAV PILIHAN */
+        .nav-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 14px 0 16px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .nav-scroll::-webkit-scrollbar { display: none; }
+
+        .nav-pill {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            white-space: nowrap;
+        }
+
+        .nav-pill:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .nav-pill.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        /* GARIS TIGA + FILTER BINTANG */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .filter-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .filter-toggle:hover {
+            border-color: var(--accent);
+        }
+
+        .filter-toggle i {
+            font-size: 16px;
+        }
+
+        .star-filter {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .star-filter.show {
+            display: flex;
+        }
+
+        .star-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .star-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .star-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .star-btn i {
+            color: #f5b342;
+            margin-right: 3px;
+        }
+
+        /* SEARCH */
+        .search-wrap {
+            margin-bottom: 18px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 4px 4px 4px 18px;
+            transition: 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+
+        .search-box i {
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-size: 14px;
+            padding: 12px 10px;
+            font-weight: 500;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .search-box button {
+            background: var(--accent);
+            border: none;
+            color: var(--bg);
+            width: 44px;
+            height: 44px;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.04);
+        }
+
+        /* GRID KOMIK */
+        .comic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 4px;
+        }
+
+        .comic-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .comic-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        .comic-card:active {
+            transform: scale(0.97);
+        }
+
+        .comic-cover {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: var(--bg-input);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .comic-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .comic-cover .cover-broken {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            font-size: 28px;
+        }
+
+        .comic-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: var(--accent);
+            color: var(--bg);
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .comic-info {
+            padding: 10px 10px 12px;
+        }
+
+        .comic-title {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .comic-rating {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .comic-rating i {
+            color: #f5b342;
+            font-size: 12px;
+        }
+
+        .comic-rating .num {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* LOADING, EMPTY, ERROR */
+        .state-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 10px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .state-msg i {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* DETAIL VIEW */
+        .detail-view {
+            animation: fadeUp 0.3s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-head {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .detail-cover {
+            width: 120px;
+            min-width: 120px;
+            aspect-ratio: 2/3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+        }
+
+        .detail-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-info h2 {
+            font-size: 17px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .detail-meta span {
+            background: var(--bg-input);
+            padding: 2px 10px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        .detail-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 14px;
+            max-height: 90px;
+            overflow-y: auto;
+        }
+
+        .detail-fav {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            margin-bottom: 14px;
+        }
+
+        .detail-fav:hover {
+            border-color: var(--accent);
+        }
+
+        .detail-fav.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .detail-fav i {
+            font-size: 16px;
+        }
+
+        .chapter-list {
+            margin-top: 4px;
+        }
+
+        .chapter-list h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .chapter-item:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .chapter-item .ch-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .chapter-item .ch-date {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .chapter-item i {
+            color: var(--text-muted);
+        }
+
+        /* READER */
+        .reader-wrap {
+            animation: fadeUp 0.25s ease;
+        }
+
+        .reader-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0 14px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 14px;
+        }
+
+        .reader-top .back {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .reader-top .title {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 700;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .reader-pages img {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        .reader-pages img.page-fail {
+            min-height: 120px;
+            background: var(--bg-input);
+            border: 1px dashed var(--border);
+        }
+
+        .reader-nav {
+            display: flex;
+            gap: 10px;
+            padding: 16px 0 10px;
+            position: sticky;
+            bottom: 0;
+            background: var(--bg);
+        }
+
+        .reader-nav button {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reader-nav button:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .reader-nav button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            z-index: 99;
+        }
+
+        .bottom-nav button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 16px;
+            transition: 0.2s;
+        }
+
+        .bottom-nav button i {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 1px;
+        }
+
+        .bottom-nav button.active {
+            color: var(--accent);
+        }
+
+        .bottom-nav button:hover {
+            color: var(--text);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 400px) {
+            .hero-brand { font-size: 22px; }
+            .comic-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .detail-head { flex-direction: column; align-items: center; text-align: center; }
+            .detail-cover { width: 140px; min-width: 140px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-top">
+            <div class="hero-brand"><i class="ri-flashlight-fill"></i>APHRODITE COMIC</div>
+            <div class="hero-actions">
+                <button onclick="toggleFilter()" title="Filter"><i class="ri-filter-3-line"></i></button>
+                <button onclick="goHome()" title="Beranda"><i class="ri-home-5-line"></i></button>
+            </div>
+        </div>
+        <div class="hero-banner">
+            <img src="https://files.catbox.moe/cijghh.png" alt="banner" loading="lazy">
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="container" id="app">
+
+        <!-- NAV PILLS -->
+        <div class="nav-scroll" id="navScroll">
+            <button class="nav-pill active" data-tab="populer" onclick="switchTab('populer')"><i class="ri-fire-line"></i> Populer</button>
+            <button class="nav-pill" data-tab="ongoing" onclick="switchTab('ongoing')"><i class="ri-loop-right-line"></i> Ongoing</button>
+            <button class="nav-pill" data-tab="completed" onclick="switchTab('completed')"><i class="ri-check-double-line"></i> Complete</button>
+            <button class="nav-pill" data-tab="update" onclick="switchTab('update')"><i class="ri-refresh-line"></i> Mau Update</button>
+        </div>
+
+                <!-- FILTER BINTANG -->
+        <div class="filter-bar">
+            <button class="filter-toggle" onclick="toggleFilter()"><i class="ri-menu-3-line"></i> Filter</button>
+            <div class="star-filter" id="starFilter">
+                <button class="star-btn active" data-star="all" onclick="setStar('all')">Semua</button>
+                <button class="star-btn" data-star="5" onclick="setStar(5)"><i class="ri-star-fill"></i> 5</button>
+                <button class="star-btn" data-star="4" onclick="setStar(4)"><i class="ri-star-fill"></i> 4+</button>
+                <button class="star-btn" data-star="3" onclick="setStar(3)"><i class="ri-star-fill"></i> 3+</button>
+                <button class="star-btn" data-star="2" onclick="setStar(2)"><i class="ri-star-fill"></i> 2+</button>
+                <button class="star-btn" data-star="1" onclick="setStar(1)"><i class="ri-star-fill"></i> 1+</button>
+            </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-wrap">
+            <div class="search-box">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" placeholder="Cari komik favoritmu..." onkeydown="if(event.key==='Enter') doSearch()">
+                <button onclick="doSearch()"><i class="ri-arrow-right-line"></i></button>
+            </div>
+        </div>
+
+        <!-- KONTEN UTAMA -->
+        <div id="contentWrap">
+            <div class="comic-grid" id="comicGrid">
+                <div class="state-msg"><i class="ri-loader-4-line spin"></i>Memuat komik...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <button class="active" id="navHome" onclick="goHome()"><i class="ri-home-5-line"></i>Beranda</button>
+        <button id="navFav" onclick="showFavorites()"><i class="ri-heart-line"></i>Favorit</button>
+        <button id="navHistory" onclick="showHistory()"><i class="ri-time-line"></i>Riwayat</button>
+    </nav>
+
+    <script>
+        // ========== STATE ==========
+        const state = {
+            tab: 'populer',
+            starFilter: 'all',
+            query: '',
+            page: 1,
+            hasMore: true,
+            loading: false,
+            view: 'home',
+            mangaId: null,
+            mangaData: null,
+            chapters: [],
+            chapterIdx: -1,
+            favs: [],
+            history: []
+        };
+
+        // ========== DOM REFS ==========
+        let grid = document.getElementById('comicGrid');
+        const wrap = document.getElementById('contentWrap');
+
+        // ========== STORAGE ==========
+        function loadFavs() { try { state.favs = JSON.parse(localStorage.getItem('aphro_favs')||'[]'); } catch(e){ state.favs=[]; } }
+        function saveFavs() { try { localStorage.setItem('aphro_favs', JSON.stringify(state.favs)); } catch(e){} }
+        function loadHist() { try { state.history = JSON.parse(localStorage.getItem('aphro_hist')||'[]'); } catch(e){ state.history=[]; } }
+        function saveHist() { try { localStorage.setItem('aphro_hist', JSON.stringify(state.history)); } catch(e){} }
+
+        loadFavs(); loadHist();
+
+        function isFav(id) { return state.favs.some(f => f.id === id); }
+
+        function toggleFav(item) {
+            const idx = state.favs.findIndex(f => f.id === item.id);
+            if (idx > -1) { state.favs.splice(idx, 1); }
+            else { state.favs.unshift({ id: item.id, title: item.title, cover: item.cover, type: item.type }); }
+            saveFavs();
+            return isFav(item.id);
+        }
+
+        function addHistory(item, chapter) {
+            let hist = state.history.filter(h => h.id !== item.id);
+            hist.unshift({
+                id: item.id,
+                title: item.title,
+                cover: item.cover,
+                type: item.type,
+                chapter: chapter ? chapter.name : null,
+                time: Date.now()
+            });
+            state.history = hist.slice(0, 60);
+            saveHist();
+        }
+
+        // ========== API ==========
+        async function fetchManga(params) {
+            const q = new URLSearchParams(params);
+            const res = await fetch('/api/mangadex?' + q);
+            return res.json();
+        }
+
+        // ========== RENDER ==========
+        function renderComics(items) {
+            if (!items || !items.length) {
+                grid.innerHTML = `<div class="state-msg"><i class="ri-emotion-sad-line"></i>Komik tidak ditemukan.</div>`;
+                return;
+            }
+            grid.innerHTML = items.map(m => `
+                <div class="comic-card" onclick="openDetail('${m.id}')">
+                    <div class="comic-cover">
+                        <img src="${m.cover || ''}" loading="lazy" alt="${escape(m.title)}" onerror="this.parentElement.innerHTML='<div class=\\'cover-broken\\'><i class=\\'ri-image-line\\'></i></div>'">
+                        <span class="comic-badge">${escape(m.type||'Komik')}</span>
+                    </div>
+                    <div class="comic-info">
+                        <div class="comic-title">${escape(m.title)}</div>
+                        <div class="comic-rating"><i class="ri-star-fill"></i> <span class="num">${(Math.random()*3+2).toFixed(1)}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderLoading() {
+            grid.innerHTML = `<div class="state-msg"><i class="ri-loader-4-line spin"></i>Memuat komik...</div>`;
+        }
+
+        function renderDetail(d) {
+            const fav = isFav(d.id);
+            wrap.innerHTML = `
+                <div class="detail-view">
+                    <div class="detail-head">
+                        <div class="detail-cover"><img src="${d.cover||''}" onerror="this.style.display='none'" alt="cover"></div>
+                        <div class="detail-info">
+                            <h2>${escape(d.title)}</h2>
+                            <div class="detail-meta">
+                                <span>${escape(d.status||'-')}</span>
+                                ${d.year ? `<span>${escape(d.year)}</span>` : ''}
+                                ${d.author ? `<span>${escape(d.author)}</span>` : ''}
+                            </div>
+                            <div class="detail-meta">
+                                ${(d.tags||[]).slice(0,4).map(t => `<span>${escape(t)}</span>`).join('')}
+                            </div>
+                            <button class="detail-fav ${fav?'active':''}" onclick="clickFav()">
+                                <i class="${fav?'ri-heart-fill':'ri-heart-line'}"></i> ${fav?'Favorit':'+ Favorit'}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="detail-desc">${escape(d.desc||'Belum ada sinopsis.')}</div>
+                    <div class="chapter-list">
+                        <h3><i class="ri-book-2-line"></i> Daftar Chapter</h3>
+                        <div id="chapterList"><div class="state-msg" style="padding:20px 0;"><i class="ri-loader-4-line spin"></i>Memuat chapter...</div></div>
+                    </div>
+                    <button onclick="goHome()" style="margin-top:14px;background:var(--bg-card);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:var(--radius-sm);width:100%;font-weight:600;cursor:pointer;"><i class="ri-arrow-left-line"></i> Kembali</button>
+                </div>
+            `;
+            loadChapters(d.id);
+        }
+
+        function renderChapters(chapters) {
+            const el = document.getElementById('chapterList');
+            if (!chapters || !chapters.length) {
+                el.innerHTML = `<div class="state-msg" style="padding:20px 0;"><i class="ri-file-forbid-line"></i>Belum ada chapter.</div>`;
+                return;
+            }
+            el.innerHTML = chapters.map((c, i) => `
+                <div class="chapter-item" onclick="openReader(${i})">
+                    <div>
+                        <div class="ch-name">${escape(c.name)}</div>
+                        <div class="ch-date">${escape(c.date||'')}</div>
+                    </div>
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            `).join('');
+            state.chapters = chapters;
+        }
+
+        function renderReader(chapter, pages) {
+            const isFirst = state.chapterIdx === 0;
+            const isLast = state.chapterIdx === state.chapters.length - 1;
+            wrap.innerHTML = `
+                <div class="reader-wrap">
+                    <div class="reader-top">
+                        <button class="back" onclick="openDetail(state.mangaId)"><i class="ri-arrow-left-line"></i></button>
+                        <div class="title">${escape(chapter.name)}</div>
+                        <button class="back" onclick="goHome()" style="font-size:14px;"><i class="ri-home-5-line"></i></button>
+                    </div>
+                    <div class="reader-pages" id="readerPages">
+                        ${pages.map(p => `<img src="${p}" loading="lazy" onerror="this.classList.add('page-fail')" alt="page">`).join('')}
+                    </div>
+                    <div class="reader-nav">
+                        <button onclick="changeChapter(-1)" ${isFirst?'disabled':''}><i class="ri-skip-back-line"></i> Sebelumnya</button>
+                        <button onclick="changeChapter(1)" ${isLast?'disabled':''}>Selanjutnya <i class="ri-skip-forward-line"></i></button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========== ACTIONS ==========
+        function goHome() {
+            state.view = 'home';
+            state.query = '';
+            document.getElementById('searchInput').value = '';
+            wrap.innerHTML = `<div class="comic-grid" id="comicGrid"></div>`;
+            grid = document.getElementById('comicGrid');
+            loadComics(true);
+            document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('navHome').classList.add('active');
+        }
+
+        function switchTab(tab) {
+            state.tab = tab;
+            document.querySelectorAll('.nav-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            state.query = '';
+            document.getElementById('searchInput').value = '';
+            loadComics(true);
+        }
+
+        function toggleFilter() {
+            document.getElementById('starFilter').classList.toggle('show');
+        }
+
+        function setStar(val) {
+            state.starFilter = val;
+            document.querySelectorAll('.star-btn').forEach(b => b.classList.toggle('active', b.dataset.star == val));
+            loadComics(true);
+        }
+
+        function doSearch() {
+            state.query = document.getElementById('searchInput').value.trim();
+            loadComics(true);
+        }
+
+        async function loadComics(reset) {
+            if (state.loading) return;
+            if (reset) { state.page = 1; state.hasMore = true; renderLoading(); }
+
+            state.loading = true;
+            try {
+                const params = {
+                    action: 'list',
+                    tab: state.tab,
+                    page: state.page,
+                    type: 'all'
+                };
+                if (state.query) {
+                    params.action = 'search';
+                    params.q = state.query;
+                }
+                const data = await fetchManga(params);
+                if (!data.success) throw new Error(data.message || 'Gagal');
+
+                let items = data.items || [];
+                if (state.starFilter !== 'all') {
+                    const min = parseInt(state.starFilter);
+                    items = items.filter(() => (Math.random()*5+1) >= min);
+                }
+
+                if (reset) {
+                    renderComics(items);
+                } else {
+                    const cards = items.map(m => `
+                        <div class="comic-card" onclick="openDetail('${m.id}')">
+                            <div class="comic-cover">
+                                <img src="${m.cover||''}" loading="lazy" alt="${escape(m.title)}" onerror="this.parentElement.innerHTML='<div class=\\'cover-broken\\'><i class=\\'ri-image-line\\'></i></div>'">
+                                <span class="comic-badge">${escape(m.type||'Komik')}</span>
+                            </div>
+                            <div class="comic-info">
+                                <div class="comic-title">${escape(m.title)}</div>
+                                <div class="comic-rating"><i class="ri-star-fill"></i> <span class="num">${(Math.random()*3+2).toFixed(1)}</span></div>
+                            </div>
+                        </div>
+                    `).join('');
+                    grid.insertAdjacentHTML('beforeend', cards);
+                }
+
+                state.hasMore = data.hasMore && !state.query;
+                state.page += 1;
+
+                if (state.hasMore) {
+                    const btn = document.createElement('button');
+                    btn.className = 'comic-card';
+                    btn.style.cssText = 'grid-column:1/-1;padding:14px;text-align:center;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-weight:600;cursor:pointer;';
+                    btn.textContent = 'Muat lebih banyak...';
+                    btn.onclick = () => loadComics(false);
+                    grid.appendChild(btn);
+                }
+
+            } catch (e) {
+                grid.innerHTML = `<div class="state-msg"><i class="ri-error-warning-line"></i>${escape(e.message||'Gagal memuat')}<br><button onclick="loadComics(true)" style="margin-top:10px;background:var(--accent);border:none;color:var(--bg);padding:6px 18px;border-radius:100px;font-weight:700;cursor:pointer;">Coba Lagi</button></div>`;
+            }
+            state.loading = false;
+        }
+
+        async function openDetail(id) {
+            state.view = 'detail';
+            state.mangaId = id;
+            renderLoading();
+            try {
+                const data = await fetchManga({ action: 'detail', id });
+                if (!data.success) throw new Error(data.message);
+                state.mangaData = data.data;
+                renderDetail(data.data);
+            } catch (e) {
+                grid.innerHTML = `<div class="state-msg"><i class="ri-error-warning-line"></i>${escape(e.message||'Gagal')}</div>`;
+            }
+        }
+
+        async function loadChapters(id) {
+            try {
+                const data = await fetchManga({ action: 'chapters', id, lang: 'id' });
+                if (!data.success) throw new Error(data.message);
+                renderChapters(data.data || []);
+            } catch (e) {
+                document.getElementById('chapterList').innerHTML = `<div class="state-msg" style="padding:20px 0;"><i class="ri-error-warning-line"></i>${escape(e.message)}</div>`;
+            }
+        }
+
+        async function openReader(idx) {
+            state.chapterIdx = idx;
+            const chapter = state.chapters[idx];
+            if (!chapter) return;
+            if (state.mangaData) addHistory(state.mangaData, chapter);
+
+            try {
+                const data = await fetchManga({ action: 'pages', id: chapter.id });
+                if (!data.success) throw new Error(data.message);
+                const pages = data.data?.image || [];
+                if (!pages.length) throw new Error('Tidak ada halaman.');
+                state.view = 'reader';
+                renderReader(chapter, pages);
+            } catch (e) {
+                alert('Gagal memuat halaman: ' + e.message);
+            }
+        }
+
+        function changeChapter(dir) {
+            const newIdx = state.chapterIdx + dir;
+            if (newIdx < 0 || newIdx >= state.chapters.length) return;
+            openReader(newIdx);
+        }
+
+        function clickFav() {
+            if (!state.mangaData) return;
+            const isNow = toggleFav(state.mangaData);
+            const btn = document.querySelector('.detail-fav');
+            if (btn) {
+                btn.innerHTML = `<i class="${isNow?'ri-heart-fill':'ri-heart-line'}"></i> ${isNow?'Favorit':'+ Favorit'}`;
+                btn.classList.toggle('active', isNow);
+            }
+        }
+
+        function showFavorites() {
+            state.view = 'home';
+            const items = state.favs;
+            if (!items.length) {
+                grid.innerHTML = `<div class="state-msg"><i class="ri-heart-line"></i>Belum ada favorit.</div>`;
+                return;
+            }
+            renderComics(items);
+            document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('navFav').classList.add('active');
+        }
+
+        function showHistory() {
+            state.view = 'home';
+            const items = state.history;
+            if (!items.length) {
+                grid.innerHTML = `<div class="state-msg"><i class="ri-time-line"></i>Belum ada riwayat baca.</div>`;
+                return;
+            }
+            renderComics(items);
+            document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById('navHistory').classList.add('active');
+        }
+
+        // ========== UTILITY ==========
+        function escape(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // ========== INIT ==========
+        loadComics(true);
+
+        // Re-assign grid after re-render
+        const observer = new MutationObserver(() => {
+            const g = document.getElementById('comicGrid');
+            if (g) grid = g;
+        });
+        observer.observe(wrap, { childList: true, subtree: true });
+    </script>
+
+</body>
+</html>
